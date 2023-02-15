@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion avec Google</title>
+  </head>
+  <body>
+    <button>Connexion avec Google</button>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+      import {
+        GoogleAuthProvider,
+        getAuth,
+        signInWithPopup,
+      } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDFMbjxDt46Ms_Bq-jph45EQ9d48MbAIK8",
+        authDomain: "myself-introduction-112f6.firebaseapp.com",
+        projectId: "myself-introduction-112f6",
+        storageBucket: "myself-introduction-112f6.appspot.com",
+        messagingSenderId: "506327429100",
+        appId: "1:506327429100:web:08f8606ab649fb110f1ac9",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const provider = new GoogleAuthProvider();
+      const button = document.querySelector("button");
+
+      button.addEventListener("click", (event) => {
+        const auth = getAuth();
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            console.log(user);
+          })
+          .catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+
+            console.log(errorMessage);
+          });
+      });
+    </script>
+  </body>
+</html>
